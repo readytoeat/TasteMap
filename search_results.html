@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>검색 결과</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Noto Sans KR) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- 상단 네비게이션 메뉴바 (높이: 64px) -->
+    <header class="bg-white shadow-sm sticky top-0 z-20">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+                <a href="index.html" class="text-2xl font-bold text-yellow-500 hover:text-yellow-600 transition duration-300">오늘 뭐 먹지?</a>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="community.html" class="text-gray-700 hover:text-yellow-500 transition duration-300 ease-in-out font-medium">커뮤니티</a>
+                <a href="mypage.html" class="text-gray-700 hover:text-yellow-500 transition duration-300 ease-in-out font-medium">마이페이지</a>
+                <a href="login.html" class="text-gray-700 hover:text-yellow-500 transition duration-300 ease-in-out font-medium">로그인</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 상단 검색바 섹션 -->
+    <div class="bg-white border-b py-4 sticky top-[64px] z-10">
+        <div class="container mx-auto px-6">
+             <form action="search_results.html" method="GET" class="relative flex items-center w-full max-w-2xl mx-auto">
+                <input
+                    type="search"
+                    name="query"
+                    value="김밥집" 
+                    class="w-full py-2.5 pl-5 pr-12 text-base bg-gray-100 border-2 border-transparent rounded-full focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:bg-white transition"
+                />
+                 <button type="submit" class="absolute right-0 top-0 h-full px-4 flex items-center justify-center text-gray-500 hover:text-yellow-500 transition">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- 검색 결과 목록 -->
+    <main class="container mx-auto p-6">
+        <div class="max-w-2xl mx-auto">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">'김밥집'에 대한 검색 결과입니다.</h2>
+            
+            <!-- 결과 아이템 리스트 -->
+            <div class="space-y-6">
+
+                <!-- 예시 아이템 1 -->
+                <div class="result-item bg-white rounded-lg shadow-md overflow-hidden flex hover:shadow-xl transition-shadow duration-300 cursor-pointer" data-name="존맛탱 김밥집" data-desc="신선한 재료로 만든 프리미엄 김밥 전문점입니다.">
+                    <img src="https://placehold.co/150x150/FBBF24/333333?text=사진" alt="음식점 사진" class="w-1/4 h-auto object-cover">
+                    <div class="p-5 flex flex-col justify-center">
+                        <h3 class="text-lg font-bold text-gray-900">존맛탱 김밥집</h3>
+                        <p class="text-gray-600 mt-1 text-sm">신선한 재료로 만든 프리미엄 김밥 전문점입니다.</p>
+                        <div class="mt-3 text-xs text-gray-500">
+                            <span>⭐ 4.8</span> | <span>📍 250m</span> | <span>한식</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 예시 아이템 2 -->
+                <div class="result-item bg-white rounded-lg shadow-md overflow-hidden flex hover:shadow-xl transition-shadow duration-300 cursor-pointer" data-name="대왕김밥" data-desc="이름처럼 정말 큰 대왕 사이즈 김밥을 팔아요.">
+                    <img src="https://placehold.co/150x150/F59E0B/FFFFFF?text=사진" alt="음식점 사진" class="w-1/4 h-auto object-cover">
+                    <div class="p-5 flex flex-col justify-center">
+                        <h3 class="text-lg font-bold text-gray-900">대왕김밥</h3>
+                        <p class="text-gray-600 mt-1 text-sm">이름처럼 정말 큰 대왕 사이즈 김밥을 팔아요.</p>
+                         <div class="mt-3 text-xs text-gray-500">
+                            <span>⭐ 4.5</span> | <span>📍 600m</span> | <span>한식, 분식</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 예시 아이템 3 -->
+                <div class="result-item bg-white rounded-lg shadow-md overflow-hidden flex hover:shadow-xl transition-shadow duration-300 cursor-pointer" data-name="꼬마김밥 천국" data-desc="골라먹는 재미가 있는 다양한 종류의 꼬마김밥!">
+                    <img src="https://placehold.co/150x150/D97706/FFFFFF?text=사진" alt="음식점 사진" class="w-1/4 h-auto object-cover">
+                    <div class="p-5 flex flex-col justify-center">
+                        <h3 class="text-lg font-bold text-gray-900">꼬마김밥 천국</h3>
+                        <p class="text-gray-600 mt-1 text-sm">골라먹는 재미가 있는 다양한 종류의 꼬마김밥!</p>
+                         <div class="mt-3 text-xs text-gray-500">
+                            <span>⭐ 4.9</span> | <span>📍 1.1km</span> | <span>분식</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 예시 아이템 4 -->
+                <div class="result-item bg-white rounded-lg shadow-md overflow-hidden flex hover:shadow-xl transition-shadow duration-300 cursor-pointer" data-name="할머니네 김밥" data-desc="정성이 가득 담긴 옛날 김밥의 맛을 느껴보세요.">
+                    <img src="https://placehold.co/150x150/B45309/FFFFFF?text=사진" alt="음식점 사진" class="w-1/4 h-auto object-cover">
+                    <div class="p-5 flex flex-col justify-center">
+                        <h3 class="text-lg font-bold text-gray-900">할머니네 김밥</h3>
+                        <p class="text-gray-600 mt-1 text-sm">정성이 가득 담긴 옛날 김밥의 맛을 느껴보세요.</p>
+                         <div class="mt-3 text-xs text-gray-500">
+                            <span>⭐ 4.6</span> | <span>📍 1.5km</span> | <span>한식</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- 오른쪽 슬라이드 패널 -->
+    <div id="side-panel" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-40">
+        <div class="p-6 h-full flex flex-col">
+            <!-- 패널 헤더 -->
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h2 id="panel-title" class="text-2xl font-bold"></h2>
+                    <p id="panel-desc" class="text-gray-600 mt-1"></p>
+                </div>
+                <button id="close-panel-btn" class="text-gray-500 hover:text-gray-800 transition-colors p-1">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <!-- 지도 이미지 Placeholder -->
+            <div class="mb-4">
+                <img src="https://placehold.co/400x250/E5E7EB/4B5563?text=지도+위치" alt="지도 위치" class="w-full rounded-lg object-cover">
+            </div>
+            <!-- 추가 정보 (flex-grow로 공간 채우기) -->
+            <div class="flex-grow">
+                <!-- 나중에 리뷰, 메뉴 등 추가 정보가 들어갈 공간 -->
+            </div>
+            <!-- 하단 주문 버튼 -->
+            <div class="mt-auto border-t pt-4">
+                <button class="w-full bg-yellow-500 text-white font-bold py-3 rounded-lg hover:bg-yellow-600 transition-colors duration-300 text-lg">
+                    주문하기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 오버레이 -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-30 transition-opacity duration-300 ease-in-out"></div>
+
+    <script>
+        // DOM 요소 가져오기
+        const resultItems = document.querySelectorAll('.result-item');
+        const sidePanel = document.getElementById('side-panel');
+        const overlay = document.getElementById('overlay');
+        const closeBtn = document.getElementById('close-panel-btn');
+        const panelTitle = document.getElementById('panel-title');
+        const panelDesc = document.getElementById('panel-desc');
+
+        // 패널 열기 함수
+        function openPanel(name, desc) {
+            // 패널에 데이터 채우기
+            panelTitle.textContent = name;
+            panelDesc.textContent = desc;
+
+            // 패널과 오버레이 보이기
+            sidePanel.classList.remove('translate-x-full');
+            overlay.classList.remove('hidden');
+            
+            // 뒷 배경 스크롤 방지
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 패널 닫기 함수
+        function closePanel() {
+            sidePanel.classList.add('translate-x-full');
+            overlay.classList.add('hidden');
+            
+            // 뒷 배경 스크롤 복원
+            document.body.style.overflow = '';
+        }
+
+        // 각 검색 결과 아이템에 클릭 이벤트 리스너 추가
+        resultItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // data 속성에서 정보 가져오기
+                const name = item.dataset.name;
+                const desc = item.dataset.desc;
+                openPanel(name, desc);
+            });
+        });
+
+        // 닫기 버튼과 오버레이에 클릭 이벤트 리스너 추가
+        closeBtn.addEventListener('click', closePanel);
+        overlay.addEventListener('click', closePanel);
+    </script>
+</body>
+</html>
+

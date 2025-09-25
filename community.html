@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>커뮤니티 - 테이스트 맵</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body, h1, h2, p, ul, li, button, input, select {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 100%;
+        }
+        a { text-decoration: none; color: inherit; }
+        body { background-color: #f9fafb; }
+        #container { width: 1200px; margin: 0 auto; padding: 20px; }
+        main { display: flex; gap: 3%; align-items: flex-start; margin-top: 30px; }
+        #board-section { width: 73%; }
+        #board-nav { margin-bottom: -1px; position: relative; z-index: 10; }
+        #board-nav button {
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 5px;
+            border-bottom: 1px solid #ddd;
+            border-radius: 6px 6px 0 0;
+        }
+        #board-nav button.active {
+            background-color: #fff;
+            color: #ca8a04;
+            font-weight: bold;
+            border-color: #ddd;
+            border-bottom-color: #fff;
+        }
+        #main-board {
+            border: 1px solid #ddd;
+            min-height: 1000px;
+            padding: 20px;
+            background-color: #fff;
+            position: relative;
+        }
+        .sort-options {
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .sort-options a { font-size: 15px; color: #6b7280; transition: color 0.2s; }
+        .sort-options a:hover { color: #374151; }
+        .sort-options a.active { color: #ca8a04; font-weight: bold; }
+        .post-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 10px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .post-item:last-child { border-bottom: none; }
+        .post-item:hover { background-color: #f0f0f0; border-radius: 8px; }
+        .post-thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        .post-content, .post-info { flex-grow: 1; min-width: 0; }
+        .post-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .post-meta { font-size: 14px; color: #6b7280; }
+        .post-info { display: flex; justify-content: space-between; align-items: center; }
+        .post-stats { font-size: 14px; color: #4b5563; white-space: nowrap; margin-left: 20px; flex-shrink: 0; }
+        .post-stats span { margin-left: 15px; }
+        #pagination { text-align: center; margin-top: 30px; }
+        #pagination a { display: inline-block; padding: 8px 16px; margin: 0 4px; border: 1px solid #ddd; color: #333; border-radius: 4px; transition: background-color .3s; }
+        #pagination a.active { background-color: #f59e0b; color: white; border: 1px solid #f59e0b; }
+        #pagination a:hover:not(.active) { background-color: #f0f0f0; }
+        #board-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+        .search-controls { display: flex; }
+        #search-filter { padding: 0 10px; border: 1px solid #ccc; border-radius: 4px 0 0 4px; background-color: #f9f9f9; }
+        #search-box { padding: 10px; width: 300px; border: 1px solid #ccc; border-left: none; border-right: none; }
+        #search-button { padding: 10px 20px; border: 1px solid #ccc; background-color: #f0f0f0; cursor: pointer; border-radius: 0 4px 4px 0; }
+        #search-button:hover { background-color: #e0e0e0; }
+        #write-button { padding: 10px 25px; background-color: #f59e0b; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        #sub-board { width: 24%; border: 1px solid #ddd; min-height: 500px; padding: 20px; background-color: #f9f9f9; }
+        #sub-board h2 { margin-bottom: 15px; color: #1f2937; font-size: 20px; }
+        .hot-post-item { display: block; padding: 12px 5px; border-bottom: 1px solid #eee; transition: background-color 0.2s ease-in-out; }
+        .hot-post-item:last-child { border-bottom: none; }
+        .hot-post-item:hover { background-color: #f0f0f0; border-radius: 4px; }
+        .hot-post-title { font-size: 16px; color: #374151; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .hot-post-meta { font-size: 13px; color: #6b7280; }
+    </style>
+</head>
+<body>
+<header class="bg-white shadow-sm">
+  <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <div>
+      <a href="index.html" class="text-2xl font-bold text-yellow-500 hover:text-yellow-600 transition duration-300">테이스트 맵</a>
+    </div>
+    <div class="flex items-center space-x-6">
+      <a href="community.html" class="text-gray-700 hover:text-yellow-500 transition duration-300 ease-in-out font-medium">커뮤니티</a>
+      <a href="mypage.html" class="text-gray-700 hover:text-yellow-500 transition duration-300 ease-in-out font-medium">마이페이지</a>
+      <a href="login.html" class="text-gray-700 hover:text-yellow-500 transition duration-300 ease-in-out font-medium">로그인</a>
+    </div>
+  </nav>
+</header>
+
+<div id="container">
+    <main>
+        <div id="board-section">
+            <div id="board-nav">
+                <button id="nav-free" onclick="showBoard('free')" class="active">자유게시판</button>
+                <button id="nav-qna" onclick="showBoard('qna')">질문게시판</button>
+                <button id="nav-info" onclick="showBoard('info')">정보게시판</button>
+            </div>
+
+            <div id="main-board">
+                <div class="sort-options">
+                    <a href="#" class="active">최근 글</a>
+                    <a href="#">오래된 글</a>
+                    <a href="#">추천 수</a>
+                </div>
+                
+                <div id="post-list">
+                    </div>
+            </div>
+
+            <div id="board-controls">
+                <div class="search-controls">
+                    <select id="search-filter">
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                        <option value="user">사용자</option>
+                    </select>
+                    <input type="text" id="search-box" placeholder="검색어를 입력하세요">
+                    <button id="search-button">검색</button>
+                </div>
+                <button id="write-button">글쓰기</button>
+            </div>
+            
+            <div id="pagination">
+                <a href="#">&lt;</a>
+                <a href="#" class="active">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <a href="#">6</a>
+                <a href="#">7</a>
+                <a href="#">8</a>
+                <a href="#">9</a>
+                <a href="#">10</a>
+                <a href="#">&gt;</a>
+            </div>
+        </div>
+
+        <aside id="sub-board">
+            <h2>🔥 HOT 게시글</h2>
+            <a href="#" class="hot-post-item">
+                <div class="hot-post-title">CSS flex 속성 사용법 정리</div>
+                <div class="hot-post-meta">정보공유왕 | 14:32</div>
+            </a>
+            <a href="#" class="hot-post-item">
+                <div class="hot-post-title">오늘 날씨가 정말 좋네요!</div>
+                <div class="hot-post-meta">테스트유저 | 09:15</div>
+            </a>
+        </aside>
+    </main>
+</div>
+
+<script>
+    // 각 게시판에 대한 샘플 데이터
+    const sampleData = {
+        free: [
+            { id: 1, title: '자유게시판 첫 번째 글입니다.', author: '자유로운영혼', date: '2025.09.21', likes: 15 },
+            { id: 2, title: '제목이 길면 이렇게 표시aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', author: '테스트유저', date: '2025.09.21', likes: 22 },
+            { id: 3, title: '다들 주말에 뭐하시나요?', author: '주말요정', date: '2025.09.20', likes: 8 },
+        ],
+        qna: [
+            { id: 1, title: '질문게시판 입니다. CSS 관련 질문있습니다.', author: '코딩새싹', date: '2025.09.21', likes: 5 },
+            { id: 2, title: '이 근처 맛집 아시는 분 있나요?', author: '맛집탐방러', date: '2025.09.20', likes: 12 },
+        ],
+        info: [
+            { id: 1, title: '정보) Tailwind CSS 유용한 플러그인 모음', author: '정보공유왕', date: '2025.09.21', likes: 58 },
+            { id: 2, title: '알려드림) 이번 주말 추천 전시회 리스트', author: '문화생활맨', date: '2025.09.19', likes: 31 },
+        ]
+    };
+
+    const postListContainer = document.getElementById('post-list');
+
+    // 게시글 목록을 화면에 렌더링하는 함수
+    function renderPosts(boardData) {
+        // 기존 목록을 비웁니다.
+        postListContainer.innerHTML = '';
+
+        // 데이터가 없으면 메시지를 표시합니다.
+        if (!boardData || boardData.length === 0) {
+            postListContainer.innerHTML = '<p class="p-4 text-center text-gray-500">게시글이 없습니다.</p>';
+            return;
+        }
+
+        // 각 게시글 데이터를 HTML로 변환하여 추가합니다.
+        boardData.forEach(post => {
+            const postElement = document.createElement('a');
+            postElement.href = '#';
+            postElement.className = 'post-item';
+            postElement.innerHTML = `
+                <img src="https://via.placeholder.com/80x80.png/FBBF24/FFFFFF?text=Img" alt="게시글 썸네일" class="post-thumbnail">
+                <div class="post-info">
+                    <div class="post-content">
+                        <div class="post-title">${post.title}</div>
+                        <div class="post-meta">${post.author} | ${post.date}</div>
+                    </div>
+                    <div class="post-stats">
+                        <span>👍 ${post.likes}</span>
+                    </div>
+                </div>
+            `;
+            postListContainer.appendChild(postElement);
+        });
+    }
+
+    // 게시판을 전환하는 함수
+    function showBoard(boardId) {
+        // 모든 버튼의 'active' 클래스를 제거합니다.
+        document.querySelectorAll('#board-nav button').forEach(button => {
+            button.classList.remove('active');
+        });
+
+        // 클릭된 버튼에만 'active' 클래스를 추가합니다.
+        document.getElementById(`nav-${boardId}`).classList.add('active');
+
+        // 해당 게시판의 데이터를 가져와 화면에 렌더링합니다.
+        const dataToRender = sampleData[boardId];
+        renderPosts(dataToRender);
+    }
+
+    // 페이지가 처음 로드될 때 '자유게시판'을 기본으로 표시합니다.
+    window.onload = function() {
+        showBoard('free');
+    };
+</script>
+
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마이페이지</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Noto Sans KR', sans-serif; }
+  .review-card, .comment-card { padding:10px; display:flex; flex-direction:column; gap:6px; width:100%; }
+  .card-content { display:flex; align-items:flex-start; gap:12px; }
+  .card-content img { width:80px; height:80px; border-radius:8px; object-fit:cover; flex-shrink:0; }
+  .card-text { display:flex; flex-direction:column; gap:6px; flex:1; }
+  .card-stars { display:flex; gap:4px; }
+  .modal-bg { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:50; }
+  .modal-content { background:white; padding:20px; border-radius:12px; text-align:center; max-width:250px; position:relative; }
+  .modal-content img { max-width:100%; border-radius:8px; }
+  .close-btn { position:absolute; top:5px; right:8px; cursor:pointer; font-weight:bold; color:red; }
+</style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<header class="bg-white shadow-sm">
+  <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <div>
+      <a href="index.html" class="text-2xl font-bold text-yellow-500 hover:text-yellow-600 transition duration-300">테이스트 맵</a>
+    </div>
+    <div class="flex items-center space-x-6">
+      <a href="community.html" class="text-gray-700 hover:text-yellow-500 transition duration-300 ease-in-out font-medium">커뮤니티</a>
+      <a href="mypage.html" class="text-gray-700 hover:text-yellow-500 transition duration-300 ease-in-out font-medium">마이페이지</a>
+      <a href="login.html" class="text-gray-700 hover:text-yellow-500 transition duration-300 ease-in-out font-medium">로그인</a>
+    </div>
+  </nav>
+</header>
+
+<main class="container mx-auto px-6 py-10">
+<h1 class="text-3xl font-bold text-gray-800 mb-8">마이페이지</h1>
+
+<div class="border-b border-gray-200 mb-6">
+  <nav class="flex space-x-6 flex-wrap">
+    <button onclick="showTab('reviews')" id="tab-reviews" class="pb-2 border-b-2 border-yellow-500 text-yellow-600 font-semibold">내가 쓴 리뷰</button>
+    <button onclick="showTab('comments')" id="tab-comments" class="pb-2 text-gray-500 hover:text-yellow-600">내가 쓴 댓글</button>
+    <button onclick="showTab('rewards')" id="tab-rewards" class="pb-2 text-gray-500 hover:text-yellow-600">포인트 / 쿠폰</button>
+    <button onclick="showTab('bookmarks')" id="tab-bookmarks" class="pb-2 text-gray-500 hover:text-yellow-600">북마크</button>
+    <button onclick="showTab('profile')" id="tab-profile" class="pb-2 text-gray-500 hover:text-yellow-600">개인정보 수정</button>
+  </nav>
+</div>
+
+<!-- 내가 쓴 리뷰 -->
+<div id="reviews" class="tab-content">
+  <h2 class="text-xl font-bold mb-4">내가 쓴 리뷰</h2>
+  <ul class="space-y-3">
+    <li class="review-card bg-white shadow rounded-lg">
+      <div class="card-content">
+        <img src="https://via.placeholder.com/80" alt="라멘 사진">
+        <div class="card-text">
+          <p class="review-title font-semibold text-gray-700">🍜 라멘집 방문기</p>
+          <p class="text-gray-700 review-text">정말 맛있었어요!</p>
+          <div class="card-stars">
+            <span class="star text-yellow-500" onclick="setStar(this,1)">★</span>
+            <span class="star text-yellow-500" onclick="setStar(this,2)">★</span>
+            <span class="star text-yellow-500" onclick="setStar(this,3)">★</span>
+            <span class="star text-gray-300" onclick="setStar(this,4)">★</span>
+            <span class="star text-gray-300" onclick="setStar(this,5)">★</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end space-x-2 mt-2">
+        <button class="px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition edit-btn">수정</button>
+        <button class="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition delete-btn">삭제</button>
+      </div>
+    </li>
+    <li class="review-card bg-white shadow rounded-lg">
+      <div class="card-content">
+        <img src="https://via.placeholder.com/80" alt="카페 사진">
+        <div class="card-text">
+          <p class="review-title font-semibold text-gray-700">☕ 카페 후기</p>
+          <p class="text-gray-700 review-text">분위기가 너무 좋았어요.</p>
+          <div class="card-stars">
+            <span class="star text-yellow-500" onclick="setStar(this,1)">★</span>
+            <span class="star text-yellow-500" onclick="setStar(this,2)">★</span>
+            <span class="star text-yellow-500" onclick="setStar(this,3)">★</span>
+            <span class="star text-gray-300" onclick="setStar(this,4)">★</span>
+            <span class="star text-gray-300" onclick="setStar(this,5)">★</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end space-x-2 mt-2">
+        <button class="px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition edit-btn">수정</button>
+        <button class="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition delete-btn">삭제</button>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- 내가 쓴 댓글 -->
+<div id="comments" class="tab-content hidden">
+  <h2 class="text-xl font-bold mb-4">내가 쓴 댓글</h2>
+  <ul class="space-y-3">
+    <li class="comment-card bg-white shadow rounded-lg p-4">
+      <div class="card-content">
+        <img src="https://via.placeholder.com/80" alt="라멘 사진">
+        <div class="card-text">
+          <p class="text-gray-700 comment-text">저도 여기 가봤는데 정말 맛있어요!</p>
+        </div>
+      </div>
+      <div class="flex justify-end space-x-2 mt-2">
+        <button class="px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition edit-btn">수정</button>
+        <button class="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition delete-btn">삭제</button>
+      </div>
+    </li>
+    <li class="comment-card bg-white shadow rounded-lg p-4">
+      <div class="card-content">
+        <img src="https://via.placeholder.com/80" alt="카페 사진">
+        <div class="card-text">
+          <p class="text-gray-700 comment-text">커피 맛이 정말 좋네요!</p>
+        </div>
+      </div>
+      <div class="flex justify-end space-x-2 mt-2">
+        <button class="px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition edit-btn">수정</button>
+        <button class="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition delete-btn">삭제</button>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- 포인트 / 쿠폰 -->
+<div id="rewards" class="tab-content hidden">
+  <h2 class="text-xl font-bold mb-4">포인트 / 쿠폰</h2>
+  <div class="bg-white p-6 rounded-lg shadow mb-6">
+    <h3 class="text-lg font-semibold mb-2">내 포인트</h3>
+    <p class="text-2xl font-bold text-yellow-600">3,250 P</p>
+    <p class="text-gray-500 text-sm mt-1">리뷰 작성 시 +100P, 댓글 작성 시 +20P</p>
+  </div>
+
+  <div class="bg-white p-6 rounded-lg shadow mb-4">
+    <h3 class="text-lg font-semibold mb-2">사용 가능 쿠폰</h3>
+    <ul class="space-y-3" id="available-coupons">
+      <li class="flex justify-between items-center p-4 border rounded-lg">
+        🍔 버거세트 20% 할인
+        <button onclick="useCoupon(this,'burger')" class="text-green-600 font-medium">보기</button>
+      </li>
+      <li class="flex justify-between items-center p-4 border rounded-lg">
+        ☕ 아메리카노 무료 쿠폰
+        <button onclick="useCoupon(this,'coffee')" class="text-green-600 font-medium">보기</button>
+      </li>
+      <li class="flex justify-between items-center p-4 border rounded-lg">
+        🍕 피자 10% 할인
+        <button onclick="useCoupon(this,'pizza')" class="text-green-600 font-medium">보기</button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="bg-white p-6 rounded-lg shadow">
+    <h3 class="text-lg font-semibold mb-2">사용 완료 쿠폰</h3>
+    <ul class="space-y-3" id="used-coupons">
+    </ul>
+  </div>
+</div>
+
+<!-- 북마크 -->
+<div id="bookmarks" class="tab-content hidden">
+  <h2 class="text-xl font-bold mb-4">북마크</h2>
+  <ul class="space-y-4">
+    <li class="p-4 bg-white shadow rounded-lg flex justify-between items-center">
+      🍕 피자 맛집
+      <button class="px-2 py-1 bg-gray-200 rounded-lg hover:bg-gray-300">🔍</button>
+    </li>
+    <li class="p-4 bg-white shadow rounded-lg flex justify-between items-center">
+      🍜 라멘 맛집
+      <button class="px-2 py-1 bg-gray-200 rounded-lg hover:bg-gray-300">🔍</button>
+    </li>
+  </ul>
+</div>
+
+<!-- 개인정보 수정 -->
+<div id="profile" class="tab-content hidden">
+  <h2 class="text-xl font-bold mb-4">개인정보 수정</h2>
+  <form class="space-y-6 bg-white p-6 rounded-lg shadow">
+    <div>
+      <label class="block mb-2 font-medium text-gray-700">프로필 사진</label>
+      <input type="file" class="w-full border border-gray-300 rounded-lg p-2">
+    </div>
+    <div>
+      <label class="block mb-2 font-medium text-gray-700">닉네임</label>
+      <input type="text" placeholder="닉네임 입력" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-yellow-400">
+    </div>
+    <div>
+      <label class="block mb-2 font-medium text-gray-700">이메일</label>
+      <input type="email" placeholder="이메일 입력" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-yellow-400">
+    </div>
+    <div>
+      <label class="block mb-2 font-medium text-gray-700">비밀번호 변경</label>
+      <input type="password" placeholder="현재 비밀번호" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-yellow-400 mb-2">
+      <input type="password" placeholder="새 비밀번호" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-yellow-400 mb-2">
+      <input type="password" placeholder="새 비밀번호 확인" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-yellow-400">
+    </div>
+    <div class="flex justify-end">
+      <button type="submit" class="px-6 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition">저장하기</button>
+    </div>
+  </form>
+</div>
+
+<!-- 쿠폰 모달 -->
+<div id="coupon-modal" class="modal-bg">
+  <div class="modal-content">
+    <span id="close-modal" class="close-btn">✖</span>
+    <div id="coupon-img"></div>
+  </div>
+</div>
+
+<script>
+// 탭 전환
+function showTab(tabId){
+  document.querySelectorAll('.tab-content').forEach(el=>el.classList.add('hidden'));
+  document.getElementById(tabId).classList.remove('hidden');
+
+  document.querySelectorAll('nav button').forEach(btn=>{
+    btn.classList.remove('border-yellow-500','text-yellow-600','font-semibold');
+    btn.classList.add('text-gray-500');
+  });
+  document.getElementById('tab-'+tabId).classList.add('border-yellow-500','text-yellow-600','font-semibold');
+}
+
+// 리뷰 별점 클릭
+function setStar(star, idx){
+  const stars = star.parentNode.querySelectorAll('.star');
+  stars.forEach((s,i)=>{
+    s.classList.toggle('text-yellow-500',i<idx);
+    s.classList.toggle('text-gray-300',i>=idx);
+  });
+}
+
+// 쿠폰 보기
+function useCoupon(btn,type){
+  const img = document.createElement('img');
+  img.src = type==='burger'?'https://via.placeholder.com/200x150?text=버거쿠폰':type==='coffee'?'https://via.placeholder.com/200x150?text=커피쿠폰':'https://via.placeholder.com/200x150?text=피자쿠폰';
+  const modal = document.getElementById('coupon-modal');
+  const couponImg = document.getElementById('coupon-img');
+  couponImg.innerHTML=''; couponImg.appendChild(img);
+  modal.style.display='flex';
+}
+
+// 쿠폰 모달 닫기
+document.getElementById('close-modal').addEventListener('click',()=>{document.getElementById('coupon-modal').style.display='none';});
+
+// 리뷰/댓글 수정
+document.querySelectorAll('.edit-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const card = btn.closest('.review-card, .comment-card');
+    const isReview = card.classList.contains('review-card');
+    if(btn.innerText==='수정'){
+      if(isReview){
+        const titleP = card.querySelector('.review-title');
+        const textP = card.querySelector('.review-text');
+        const titleInput = document.createElement('input');
+        titleInput.value = titleP.innerText;
+        titleInput.className='w-full border border-gray-300 rounded-lg p-1';
+        const textInput = document.createElement('textarea');
+        textInput.value = textP.innerText;
+        textInput.className='w-full border border-gray-300 rounded-lg p-1 mt-1';
+        card.querySelector('.card-text').replaceChild(titleInput,titleP);
+        card.querySelector('.card-text').replaceChild(textInput,textP);
+      } else {
+        const textP = card.querySelector('.comment-text');
+        const textInput = document.createElement('textarea');
+        textInput.value = textP.innerText;
+        textInput.className='w-full border border-gray-300 rounded-lg p-1';
+        card.querySelector('.card-text').replaceChild(textInput,textP);
+      }
+      btn.innerText='완료';
+    } else {
+      if(isReview){
+        const titleInput = card.querySelector('input');
+        const textInput = card.querySelector('textarea');
+        const newTitle = document.createElement('p');
+        newTitle.className='review-title font-semibold text-gray-700';
+        newTitle.innerText = titleInput.value;
+        const newText = document.createElement('p');
+        newText.className='review-text text-gray-700';
+        newText.innerText = textInput.value;
+        card.querySelector('.card-text').replaceChild(newTitle,titleInput);
+        card.querySelector('.card-text').replaceChild(newText,textInput);
+      } else {
+        const textInput = card.querySelector('textarea');
+        const newText = document.createElement('p');
+        newText.className='comment-text text-gray-700';
+        newText.innerText = textInput.value;
+        card.querySelector('.card-text').replaceChild(newText,textInput);
+      }
+      btn.innerText='수정';
+    }
+  });
+});
+
+// 리뷰/댓글 삭제
+document.querySelectorAll('.delete-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{btn.closest('.review-card, .comment-card').remove();});
+});
+</script>
+</body>
+</html>
